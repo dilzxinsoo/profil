@@ -114,7 +114,6 @@
     .profile-wrapper h1 {
   font-size: 2rem;
   font-weight: 600;
-  border-bottom: 2px solid #fff;
   display: inline-block;
   padding-bottom: 5px;
   color: #fff;
@@ -547,16 +546,73 @@
   min-height: 40px;
 }
 
-#cursor {
-  display: inline-block;
-  margin-left: 2px;
+#typedText {
+  font-size: 1rem;
   color: #fff;
-  animation: blinkCursor 0.8s steps(2) infinite;
+  text-shadow: 1px 1px 3px #000;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid white;
+  width: fit-content;
+  margin: 0 auto;
+  animation: blinkCursor 0.75s step-end infinite;
 }
 
 @keyframes blinkCursor {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%, 100% { border-color: transparent; }
+  50% { border-color: white; }
+}
+
+.title-underline {
+  display: inline-block;
+  height: 2px;
+  background-color: #fff;
+  margin-top: 6px;
+  animation: growLine 1s ease forwards;
+  transform-origin: left;
+  width: 0;
+}
+
+@keyframes growLine {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.profile-photo-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+}
+
+.profile-photo-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #00f0ff,
+    #ff00ff,
+    #00f0ff
+  );
+  filter: blur(8px);
+  opacity: 0.7;
+  z-index: 0;
+  animation: rotateGlow 4s linear infinite;
+}
+
+@keyframes rotateGlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
   </style>
 </head>
@@ -579,11 +635,14 @@
   <button id="showProfile" class="tab active">Profile</button>
   <button id="showSocials" class="tab">Sosmed</button>
 </div>
-<img src="https://files.catbox.moe/p4etpx.jpg" alt="Foto Profil" class="profile-photo" />
+<div class="profile-photo-wrapper">
+  <img src="https://files.catbox.moe/p4etpx.jpg" alt="Foto Profil" class="profile-photo" />
+</div>
     <h1>Shadiqah Adil Naufal</h1>
+<div class="title-underline"></div>
 <div id="profileContent">
   <div class="description">
-  <p id="typingText"><span id="typedText"></span><span id="cursor">|</span></p>
+  <p id="typingText"><span id="typedText"></span></p>
 </div>
   <div id="countdown">Loading countdown...</div>
   <div class="progress-container">
@@ -661,19 +720,30 @@ setTimeout(() => {
   profileWrapper.style.display = "block";
   passwordInput.classList.remove("success-glow");
 
-  // Setelah halaman tampil, animasi progress bar mulai dari 0% ke target
+  // === Efek mesin ketik dimulai di sini ===
+  const typedText = document.getElementById("typedText"); // ambil elemen teks
+  typedText.textContent = ""; // reset isi teks
+  typedText.style.display = "none"; // disembunyikan dulu
+
+  setTimeout(() => {
+    typedText.style.display = "block";
+    typeEffect(); // mulai animasi
+  }, 800); // delay biar judul <h1> muncul dulu
+  // ========================================
+
+  // Progress bar animasi
   progressBar.style.width = "0%";
   setTimeout(() => {
     progressBar.style.transition = "width 2s ease";
     progressBar.style.width = `${targetPercent}%`;
   }, 100);
 
-  // AUTOPLAY MUSIC DI SINI
-audio.play().then(() => {
-  playBtn.innerText = "❚❚"; // tampilkan ikon pause jika berhasil play
-}).catch(() => {
-  playBtn.innerText = "▶"; // tampilkan ikon play jika autoplay dicegah
-});
+  // Musik autoplay
+  audio.play().then(() => {
+    playBtn.innerText = "❚❚";
+  }).catch(() => {
+    playBtn.innerText = "▶";
+  });
 
 }, 400);
 
@@ -912,11 +982,6 @@ function typeEffect() {
 
   setTimeout(typeEffect, isDeleting ? 30 : 80); // ketik/hapus kecepatan
 }
-
-// typeEffect();
-setTimeout(() => {
-  typeEffect();
-}, 1200); // mulai setelah 1.2 detik
 </script>
 </body>
   </html>
