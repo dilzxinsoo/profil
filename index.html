@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Private Page | Dan Aleko</title>
+  <title>My Profile | Dilz</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 
@@ -505,6 +505,43 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
+
+.tab-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tab {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 8px 16px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  background: #fff;
+  color: #000;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 12px rgba(0,0,0,0.3);
+  margin: 0 auto 20px;
+  display: block;
+  animation: zoomIn 1s ease forwards;
+  opacity: 0;
+}
   </style>
 </head>
 <body>
@@ -522,22 +559,31 @@
   </div>
 
   <div class="profile-wrapper" id="profileWrapper">
-    <h1>Shadiqah Adil Naufal</h1>
-    <div class="description">
-      <p>IX.7</p>
-      <p>SMP Negeri 2 Prabumulih</p>
-      <p>Prabumulih, 13 December 2009</p>
-    </div>
-    <div id="countdown">Loading countdown...</div>
-    <div class="progress-container">
-  <div class="progress-bar" id="progressBar"></div>
+    <div class="tab-buttons">
+  <button id="showProfile" class="tab active">Profile</button>
+  <button id="showSocials" class="tab">Sosmed</button>
 </div>
-    <div class="buttons">
-      <a href="https://wa.me/6282278271317" class="whatsapp"><i class='bx bxl-whatsapp'></i><span>WhatsApp</span></a>
-      <a href="https://instagram.com/shdqah.adil" class="instagram"><i class='bx bxl-instagram'></i><span>Instagram</span></a>
-      <a href="https://tiktok.com/@shadiqah15_" class="tiktok"><i class='bx bxl-tiktok'></i><span>TikTok</span></a>
-      <a href="https://t.me/dilz_xinsoo" class="telegram"><i class='bx bxl-telegram'></i><span>Telegram</span></a>
-    </div>
+<img src="https://files.catbox.moe/p4etpx.jpg" alt="Foto Profil" class="profile-photo" />
+    <h1>Shadiqah Adil Naufal</h1>
+<div id="profileContent">
+  <div class="description">
+    <p>IX.7</p>
+    <p>SMP Negeri 2 Prabumulih</p>
+    <p>Prabumulih, 13 December 2009</p>
+  </div>
+  <div id="countdown">Loading countdown...</div>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</div>
+    <div id="socialContent" style="display: none;">
+  <div class="buttons">
+    <a href="https://wa.me/6282278271317" class="whatsapp"><i class='bx bxl-whatsapp'></i><span>WhatsApp</span></a>
+    <a href="https://instagram.com/shdqah.adil" class="instagram"><i class='bx bxl-instagram'></i><span>Instagram</span></a>
+    <a href="https://tiktok.com/@shadiqah15_" class="tiktok"><i class='bx bxl-tiktok'></i><span>TikTok</span></a>
+    <a href="https://t.me/dilz_xinsoo" class="telegram"><i class='bx bxl-telegram'></i><span>Telegram</span></a>
+  </div>
+</div>
     <!-- === Music Player === -->
 <div id="musicPlayer" style="margin-top: 30px; text-align: center;">
   <div class="music-title-wrapper">
@@ -789,6 +835,29 @@ document.getElementById("musicProgressContainer").addEventListener("click", (e) 
     twinkleStar.style.animationDuration = (Math.random() * 2 + 1) + 's'; // variasi kecepatan
     document.body.appendChild(twinkleStar);
   }
+  
+  // TAB SWITCH: Profile & Sosmed
+document.getElementById("showProfile").addEventListener("click", () => {
+  document.querySelector(".description").style.display = "block";
+  document.getElementById("countdown").style.display = "block";
+  document.querySelector(".progress-container").style.display = "block";
+  document.getElementById("musicPlayer").style.display = "block";
+  document.getElementById("socialContent").style.display = "none";
+
+  document.getElementById("showProfile").classList.add("active");
+  document.getElementById("showSocials").classList.remove("active");
+});
+
+document.getElementById("showSocials").addEventListener("click", () => {
+  document.querySelector(".description").style.display = "none";
+  document.getElementById("countdown").style.display = "none";
+  document.querySelector(".progress-container").style.display = "none";
+  document.getElementById("musicPlayer").style.display = "none";
+  document.getElementById("socialContent").style.display = "block";
+
+  document.getElementById("showProfile").classList.remove("active");
+  document.getElementById("showSocials").classList.add("active");
+});
 
 </script>
   </script>
